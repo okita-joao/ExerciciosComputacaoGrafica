@@ -16,7 +16,7 @@ let coord_xy_pontos_circulo = [];
 
 let cores_pontos_circulo = [];
 
-const num_pontos_circulo = 12;
+const num_pontos_circulo = 4;
 
 const centro_circulo = [0, 0];
 
@@ -24,20 +24,35 @@ const raio = 0.5;
 
 const dx = (2*raio)/num_pontos_circulo;
 
-let x = centro_circulo - raio;
-let y = 0.0;
-for(let i = 0; i < num_pontos_circulo; i++) {
-    y = Math.sqrt(Math.pow(raio, 2) - Math.pow((x - centro_circulo[0]), 2));
-    coord_xy_pontos_circulo.push(x, y + centro_circulo[1]);
-    coord_xy_pontos_circulo.push(x, -y + centro_circulo[1]);
+function add_cor(r, g, b, arrayCores) {
+    arrayCores.push(r);
+    arrayCores.push(g);
+    arrayCores.push(b);
+}
 
-    cores_pontos_circulo.push(1.0)
-    cores_pontos_circulo.push(0.0)
-    cores_pontos_circulo.push(0.0)
+let x = centro_circulo[0] - raio;
+let y = 0.0;
+for(let i = 0; i <= num_pontos_circulo; i++) {
+    y = Math.sqrt(Math.pow(raio, 2) - Math.pow((x - centro_circulo[0]), 2));
+    a = y + centro_circulo[1];
+    b = -y + centro_circulo[1];
+
+    if (a != b) {
+        coord_xy_pontos_circulo.push(x, a);
+        coord_xy_pontos_circulo.push(x, b);
+
+        add_cor(1.0, 0.0, 0.0, cores_pontos_circulo);
+        add_cor(1.0, 0.0, 0.0, cores_pontos_circulo);
+    }
+    else {
+        coord_xy_pontos_circulo.push(x, a);
+
+        add_cor(1.0, 0.0, 0.0, cores_pontos_circulo);
+    }
+
 
     x = x + dx;
 }
-
 
 const vertices = new Float32Array(coord_xy_pontos_circulo);
 
